@@ -1,0 +1,209 @@
+#! ---------------------------------------------------------------------------------------
+#!
+#! Description       :
+#!
+#! Authors           : Cyril Thebault <cyril.thebault@inrae.fr>
+#!
+#! Creation date     : 2025-12-02 12:00:57
+#! Modification date :
+#!
+#! Comments          :
+#!
+#! ---------------------------------------------------------------------------------------
+
+setwd("/Users/cyrilthebault/Postdoc_Ucal/02_DATA/git/FUSE-Dynamic-Combination-Sim-Paper")
+
+#! ----------------------------- package loading
+
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(tibble)
+library(purrr)
+library(ggpubr)
+
+source(file = "Metrics.R")
+
+##-----------------------------------------
+##---------------- MAIN ------------------
+##-----------------------------------------
+
+dir_FUSE = file.path('00_DATA')
+
+
+# FUSE HQ
+Eval_FUSE_long_HQ = loadRData(file.path(dir_FUSE, "1", "Eval_FUSE.Rdata")) %>%
+  mutate(`Cal : KGEcomp` = (`Cal : KGE :  1` + `Cal : KGE : -1`) / 2,
+         `Eval : KGEcomp` = (`Eval : KGE :  1` + `Eval : KGE : -1`) / 2)
+
+decision_medians_HQ <- Eval_FUSE_long_HQ %>%
+  group_by(ModelDecisions) %>%
+  summarise(median_Cal_KGEcomp = median(`Cal : KGEcomp`, na.rm = TRUE))
+
+best_decision_HQ <- decision_medians_HQ %>%
+  filter(median_Cal_KGEcomp == max(median_Cal_KGEcomp)) %>%
+  pull(ModelDecisions)
+
+Eval_FUSE_best_HQ <- Eval_FUSE_long_HQ %>%
+  filter(ModelDecisions == best_decision_HQ) %>%
+  dplyr::select(Codes,`Eval : KGE :  1`, `Eval : KGE : -1`) %>%
+  rename(`KGE(Q)` = `Eval : KGE :  1`, `KGE(1/Q)` = `Eval : KGE : -1`) %>%
+  mutate(Type = "FUSE - KGE(Q)")
+
+
+
+# FUSE LQ
+Eval_FUSE_long_LQ = loadRData(file.path(dir_FUSE, "-1", "Eval_FUSE.Rdata"))%>%
+  mutate(`Cal : KGEcomp` = (`Cal : KGE :  1` + `Cal : KGE : -1`) / 2,
+         `Eval : KGEcomp` = (`Eval : KGE :  1` + `Eval : KGE : -1`) / 2)
+
+decision_medians_LQ <- Eval_FUSE_long_LQ %>%
+  group_by(ModelDecisions) %>%
+  summarise(median_Cal_KGEcomp = median(`Cal : KGEcomp`, na.rm = TRUE))
+
+best_decision_LQ <- decision_medians_LQ %>%
+  filter(median_Cal_KGEcomp == max(median_Cal_KGEcomp)) %>%
+  pull(ModelDecisions)
+
+Eval_FUSE_best_LQ <- Eval_FUSE_long_LQ %>%
+  filter(ModelDecisions == best_decision_LQ) %>%
+  dplyr::select(Codes,`Eval : KGE :  1`, `Eval : KGE : -1`) %>%
+  rename(`KGE(Q)` = `Eval : KGE :  1`, `KGE(1/Q)` = `Eval : KGE : -1`) %>%
+  mutate(Type = "FUSE - KGE(1/Q)")
+
+
+
+# FUSE comp
+Eval_FUSE_long_Comp = loadRData(file.path(dir_FUSE, "Comp", "Eval_FUSE.Rdata"))%>%
+  mutate(`Cal : KGEcomp` = (`Cal : KGE :  1` + `Cal : KGE : -1`) / 2,
+         `Eval : KGEcomp` = (`Eval : KGE :  1` + `Eval : KGE : -1`) / 2)
+
+decision_medians_Comp <- Eval_FUSE_long_Comp %>%
+  group_by(ModelDecisions) %>%
+  summarise(median_Cal_KGEcomp = median(`Cal : KGEcomp`, na.rm = TRUE))
+
+best_decision_Comp <- decision_medians_Comp %>%
+  filter(median_Cal_KGEcomp == max(median_Cal_KGEcomp)) %>%
+  pull(ModelDecisions)
+
+Eval_FUSE_best_Comp <- Eval_FUSE_long_Comp %>%
+  filter(ModelDecisions == best_decision_Comp) %>%
+  dplyr::select(Codes,`Eval : KGE :  1`, `Eval : KGE : -1`) %>%
+  rename(`KGE(Q)` = `Eval : KGE :  1`, `KGE(1/Q)` = `Eval : KGE : -1`) %>%
+  mutate(Type = "FUSE - KGEcomp")
+
+
+# FUSE Mosa
+df_eval_gumboot = read.table("00_DATA/SamplingUncertainty/brief_analysis_modeling_results_with_gumboot_eval.csv",
+                             header = TRUE, sep = ",")
+df_eval_gumboot$Codes = ifelse(nchar(df_eval_gumboot$gauge_id) == 7, paste0("USA_0", df_eval_gumboot$gauge_id), paste0("USA_", df_eval_gumboot$gauge_id))
+
+Eval_FUSE_long_HQ_tmp <- Eval_FUSE_long_HQ %>%
+  mutate(ModelDecisions = paste0("HF_", ModelDecisions))
+
+Eval_FUSE_long_LQ_tmp <- Eval_FUSE_long_LQ %>%
+  mutate(ModelDecisions = paste0("LF_", ModelDecisions))
+
+Eval_FUSE_long_Mosa <- bind_rows(Eval_FUSE_long_HQ_tmp, Eval_FUSE_long_LQ_tmp)
+
+df_lookup <- data.frame(Codes = df_eval_gumboot$Codes, mod_need = df_eval_gumboot$mod_need)
+
+Eval_FUSE_best_Mosa <- Eval_FUSE_long_Mosa %>%
+  left_join(df_lookup, by = "Codes") %>%
+  group_by(Codes) %>%
+  filter(if_else(is.na(mod_need), row_number() == 1, ModelDecisions == mod_need)) %>% 
+  ungroup()
+
+Eval_FUSE_best_Mosa[is.na(Eval_FUSE_best_Mosa$mod_need),3:12] = NA
+
+Eval_FUSE_best_Mosa <- Eval_FUSE_best_Mosa %>%
+  dplyr::select(Codes,`Eval : KGE :  1`, `Eval : KGE : -1`) %>%
+  rename(`KGE(Q)` = `Eval : KGE :  1`, `KGE(1/Q)` = `Eval : KGE : -1`) %>%
+  mutate(Type = "Multi-Model Mosaic")
+
+
+# FUSE WA
+Eval_FUSE_long_WA = loadRData(file.path(dir_FUSE, "WA", "Eval_FUSE.Rdata"))%>%
+  mutate(`Cal : KGEcomp` = (`Cal : KGE :  1` + `Cal : KGE : -1`) / 2,
+         `Eval : KGEcomp` = (`Eval : KGE :  1` + `Eval : KGE : -1`) / 2)
+
+decision_medians_WA <- Eval_FUSE_long_WA %>%
+  group_by(ModelDecisions) %>%
+  summarise(median_Eval_KGEcomp = median(`Eval : KGEcomp`, na.rm = TRUE))
+
+best_decision_WA <- decision_medians_WA %>%
+  filter(median_Eval_KGEcomp == max(median_Eval_KGEcomp)) %>%
+  pull(ModelDecisions)
+
+Eval_FUSE_best_WA <- Eval_FUSE_long_WA %>%
+  filter(ModelDecisions == best_decision_WA) %>%
+  dplyr::select(Codes,`Eval : KGE :  1`, `Eval : KGE : -1`) %>%
+  rename(`KGE(Q)` = `Eval : KGE :  1`, `KGE(1/Q)` = `Eval : KGE : -1`) %>%
+  mutate(Type = "Dynamic Combination")
+
+
+
+Eval_FUSE_best_HQ = Eval_FUSE_best_HQ[,c("Type", "KGE(Q)", "KGE(1/Q)")]
+Eval_FUSE_best_LQ = Eval_FUSE_best_LQ[,c("Type", "KGE(Q)", "KGE(1/Q)")]
+Eval_FUSE_best_Comp = Eval_FUSE_best_Comp[,c("Type", "KGE(Q)", "KGE(1/Q)")]
+Eval_FUSE_best_Mosa = Eval_FUSE_best_Mosa[,c("Type", "KGE(Q)", "KGE(1/Q)")]
+Eval_FUSE_best_WA = Eval_FUSE_best_WA[,c("Type", "KGE(Q)", "KGE(1/Q)")]
+
+
+# Ensure the rownames are preserved as a column for merging
+combined_df <-rbind(Eval_FUSE_best_HQ,Eval_FUSE_best_LQ,
+                    Eval_FUSE_best_Comp,
+                    Eval_FUSE_best_Mosa,
+                    Eval_FUSE_best_WA
+)
+
+
+
+##########################
+#--------Boxplot---------#
+##########################
+
+# Calculate KGEcomp
+combined_df$KGEcomp <- (combined_df$`KGE(Q)` + combined_df$`KGE(1/Q)`) / 2
+
+# Define color palette
+color_dict <- c(
+  "FUSE - KGEcomp" = "darkorange",
+  "FUSE - KGE(Q)" = "dodgerblue4",
+  "FUSE - KGE(1/Q)" = "forestgreen",
+  "Multi-Model Mosaic" = "lightpink",
+  "Dynamic Combination" = "firebrick4"
+)
+
+
+# Convert Type to factor with ordered levels
+combined_df$Type <- factor(combined_df$Type, 
+                           levels = c("Dynamic Combination", "Multi-Model Mosaic", "FUSE - KGEcomp", "FUSE - KGE(1/Q)", "FUSE - KGE(Q)" ))
+
+# Create boxplot with custom quantiles and colors
+gg2 <- ggplot(combined_df, aes(x = Type, y = KGEcomp, fill = Type)) +
+  stat_summary(geom = "boxplot", 
+               fun.data = function(x) {
+                 data.frame(
+                   y = median(x),
+                   ymin = quantile(x, 0.10),
+                   lower = quantile(x, 0.25),
+                   middle = median(x),
+                   upper = quantile(x, 0.75),
+                   ymax = quantile(x, 0.90)
+                 )
+               }, 
+               position = position_dodge2()) +
+  scale_fill_manual(values = color_dict) +
+  geom_hline(yintercept = 1, col = "black", linetype = "dashed") +
+  labs(x = "Modelling approach", y = expression(KGE[comp])) +
+  coord_flip(ylim = c(-0.41,1)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none")
+
+gg2
+
+
+ggsave(plot = gg2, filename = "99_Figures/Fig8_BoxplotPerf.png",
+       width = 10, height = 3, dpi = 300)
