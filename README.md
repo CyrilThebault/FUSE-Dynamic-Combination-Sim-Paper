@@ -9,7 +9,8 @@ This repository allows for the reproduction of results from the paper:
 
 The repository is organized as follows:
 
-- **`00_DATA/`**: Contains the results from individual FUSE models (-1, 1, Comp folders), multi-model mosaic (SamplingUncertainty folder) and dynamic combination approach (WA folder). The lists of FUSE decisions, parameters for the dynamic combination and catchments are also provided here. The data can be download directly from: http://www.hydroshare.org/resource/86bcf167b8ff433baaf3be892f74394a
+- **`00_DATA/`**: Contains the results from individual FUSE models (-1, 1, Comp folders), multi-model mosaic (SamplingUncertainty folder) and dynamic combination approach (WA folder). The lists of FUSE decisions, parameters for the dynamic combination and catchments are also provided here. The data can be download directly from: http://www.hydroshare.org/resource/cd5cd3116bc544488c223122b4af5516
+
 
 - **`01_FUSEscripts/`**: Includes scripts to run individual FUSE models. These scripts help set up, execute and evaluate the 78 hydrological models used in the study.
 
@@ -21,7 +22,7 @@ The repository is organized as follows:
 
 - **`99_Figures/`**: Include the figures generated with `04_Visualisation/`.
 
-- **`Shp/`**: Include USA boundaries shapefile (from “North American Atlas - Political Boundaries” (Commission for Environmental Cooperation, 2022)) and gauges locations (from CAMELS dataset (Addor et al, 2017)) used in `04_Visualisation/`. The folder can be download directly from: http://www.hydroshare.org/resource/86bcf167b8ff433baaf3be892f74394a
+- **`Shp/`**: Include USA boundaries shapefile (from “North American Atlas - Political Boundaries” (Commission for Environmental Cooperation, 2022)) and gauges locations (from CAMELS dataset (Addor et al, 2017)) used in `04_Visualisation/`. The folder can be download directly from: http://www.hydroshare.org/resource/cd5cd3116bc544488c223122b4af5516
 
 Metrics.R file include various functions to calculate metrics for streamflow evaluation. 
 
