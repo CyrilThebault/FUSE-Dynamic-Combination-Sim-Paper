@@ -3,7 +3,7 @@
 This repository allows for the reproduction of results from the paper:
 
 **"A Time-Varying Combination of Hydrological Models: Towards a Better Representation of Streamflow Across Large Domains"**  
-*Thébault, C, Knoben W. J. M., Addor, N., Clark, M. P. (2025)*
+*Thébault, C, Knoben W. J. M., Addor, N., Clark, M. P. (2025)*
 
 ## Repository Structure
 
@@ -55,4 +55,4 @@ To run the scripts, ensure you have the following dependencies installed:
 
 If you use this repository or its outputs in your research, please cite:
 
-> Thébault, C, Knoben W. J. M., Addor, N., Clark, M. P. (2025). *A Time-Varying Combination of Hydrological Models: Towards a Better Representation of Streamflow Across Large Domains*.
+> Thébault, C, Knoben W. J. M., Addor, N., Clark, M. P. (2025). *A Time-Varying Combination of Hydrological Models: Towards a Better Representation of Streamflow Across Large Domains*.
