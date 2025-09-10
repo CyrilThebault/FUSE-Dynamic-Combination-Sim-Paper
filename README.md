@@ -9,8 +9,7 @@ This repository allows for the reproduction of results from the paper:
 
 The repository is organized as follows:
 
-- **`00_DATA/`**: Contains the results from individual FUSE models (-1, 1, Comp folders), multi-model mosaic (SamplingUncertainty folder) and dynamic combination approach (WA folder). The lists of FUSE decisions, parameters for the dynamic combination and catchments are also provided here. The data can be download directly from: http://www.hydroshare.org/resource/cd5cd3116bc544488c223122b4af5516
-
+- **`00_DATA/`**: Contains the results from individual FUSE models (`-1`, `1` folders), and dynamic combination approach (`HQLQ_XX_XX` folders). The lists of FUSE decisions, parameters for the dynamic combination and catchments are also provided here. Observed streamflow and results from sampling uncertainty are included. The data can be download directly from: http://www.hydroshare.org/resource/cd5cd3116bc544488c223122b4af5516
 
 - **`01_FUSEscripts/`**: Includes scripts to run individual FUSE models. These scripts help set up, execute and evaluate the 78 hydrological models used in the study.
 
