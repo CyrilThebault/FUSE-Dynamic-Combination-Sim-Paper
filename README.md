@@ -2,8 +2,8 @@
 
 This repository allows for the reproduction of results from the paper:
 
-**"A Time-Varying Combination of Hydrological Models: Towards a Better Representation of Streamflow Across Large Domains"**  
-*Thébault, C, Knoben W. J. M., Addor, N., Clark, M. P. (2025)*
+**"Varying the Combination of Hydrological Models in Time and Space: Towards a More Accurate Representation of Streamflow Across Large Domains"**  
+*Thébault, C., Knoben, W. J. M., Addor, N., Newman, A.J., Clark, M. P. (2025)*
 
 ## Repository Structure
 
@@ -14,11 +14,9 @@ The repository is organized as follows:
 
 - **`01_FUSEscripts/`**: Includes scripts to run individual FUSE models. These scripts help set up, execute and evaluate the 78 hydrological models used in the study.
 
-- **`02_MMMscripts/`**: Provides scripts to reproduce the multi-model mosaic, which was derived from the paper "Technical note: How many models do we need to simulate hydrologic processes across large geographical domains?" (Knoben et al., 2025).
+- **`02_DCscripts/`**: Contains scripts to run and evaluate the dynamic combination approach.
 
-- **`03_DCscripts/`**: Contains scripts to run and evaluate the dynamic combination approach.
-
-- **`04_Visualisation/`**: Includes scripts to generate the figures used in the manuscript, leveraging the data stored in `00_DATA/` (outputs of the previous stages).
+- **`03_Visualisation/`**: Includes scripts to generate the figures used in the manuscript, leveraging the data stored in `00_DATA/` (outputs of the previous stages). Include also a folder named `UtilitaryScripts` (script to calculate sampling uncertainty and to analyse temporal evolution of model selection)
 
 - **`99_Figures/`**: Include the figures generated with `04_Visualisation/`.
 
@@ -35,11 +33,11 @@ To reproduce the results presented in the paper, follow these steps:
 1. **Run FUSE models**  
    Execute the scripts in `01_FUSEscripts/` to generate individual model outputs.
 
-2. **Perform sampling uncertainty analysis to design the multi-model mosaic**  
-   Use the scripts in `02_MMMscripts/` to analyze sampling uncertainty and design the multi-model mosaic.
+2. **Apply dynamic combination approach**  
+   The scripts in `02_DCscripts/` implement the time-varying model combination methodology.
 
-3. **Apply dynamic combination approach**  
-   The scripts in `03_DCscripts/` implement the time-varying model combination methodology.
+3. **Generate some analysis**  
+   Run the scripts in `04_Visualisation/UtilitaryScripts/` to generate specific files needed for the visualisation.
 
 4. **Generate visualizations**  
    Run the scripts in `04_Visualisation/` to reproduce the figures presented in the manuscript.
@@ -56,4 +54,4 @@ To run the scripts, ensure you have the following dependencies installed:
 
 If you use this repository or its outputs in your research, please cite:
 
-> Thébault, C, Knoben W. J. M., Addor, N., Clark, M. P. (2025). *A Time-Varying Combination of Hydrological Models: Towards a Better Representation of Streamflow Across Large Domains*.
+> Thébault, C, Knoben W. J. M., Addor, N., Newman, A.J., Clark, M. P. (2025). *Varying the Combination of Hydrological Models in Time and Space: Towards a More Accurate Representation of Streamflow Across Large Domains*.

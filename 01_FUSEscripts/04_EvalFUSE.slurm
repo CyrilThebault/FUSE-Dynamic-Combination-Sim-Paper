@@ -14,7 +14,7 @@ module load R/4.3.1
 module load osgeo/gdal
 module load lib/netcdf
 
-## Instruction BASH permettant de récupérer la ligne correspondante au numéro d’ARRAY correspondant
+
 input=${SLURM_ARRAY_TASK_ID}
-## On lance le programme R avec en  argument le chemin vers le fichier correspondant au bassin SLURM_ARRAY_TASK_ID
+
 Rscript EvalFUSE.R ${input}

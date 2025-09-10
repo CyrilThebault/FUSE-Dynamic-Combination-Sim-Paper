@@ -70,7 +70,7 @@ EvalEnd = "2009-12-31"
 dataset = "CAMELS"
 spatialisation = "Lumped"
 inputdata = "daymet"
-CritCal = "KGECOMP"
+CritCal = "KGE"
 TransfoCal="1"
 
 ##-----------------------------------------

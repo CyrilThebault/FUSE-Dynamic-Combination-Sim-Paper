@@ -50,7 +50,7 @@ models = read.table(paste0(dir_FUSE, "/list_decision_78.txt"), sep = ";", header
 dataset = "CAMELS"
 spatialisation = "Lumped"
 inputdata = "daymet"
-CritCal = "KGECOMP"
+CritCal = "KGE"
 TransfoCal="1"
 
 CritEval = c("KGE", "NSE")

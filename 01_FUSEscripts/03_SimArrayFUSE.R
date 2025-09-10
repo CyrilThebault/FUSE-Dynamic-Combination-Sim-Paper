@@ -36,7 +36,7 @@ decisionsID = as.character(decisions$ID)
 dataset = "CAMELS"
 spatialisation = "Lumped"
 inputdata = "daymet"
-CritCal = "KGECOMP"
+CritCal = "KGE"
 TransfoCal="1"
 
 for(catchment in catchments){
