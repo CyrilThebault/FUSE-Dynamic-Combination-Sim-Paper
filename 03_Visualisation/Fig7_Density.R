@@ -50,7 +50,6 @@ Eval_FUSE_best_HQ <- Eval_FUSE_long_HQ %>%
 
 
 # FUSE LQ
-dir_FUSE_LQ = file.path(path_res, 'FUSE')
 Eval_FUSE_long_LQ = loadRData(file.path(dir_FUSE, "-1", "Eval_FUSE.Rdata"))
 
 decision_medians_LQ <- Eval_FUSE_long_LQ %>%
@@ -70,7 +69,6 @@ Eval_FUSE_best_LQ <- Eval_FUSE_long_LQ %>%
 
 
 # FUSE WA
-dir_FUSE_WA = file.path(path_res, 'FUSE')
 Eval_FUSE_long_WA = loadRData(file.path(dir_FUSE, "HQLQ_WA_q", "Eval_FUSE.Rdata"))
 
 best_decision_WA <- "16_17_5"
