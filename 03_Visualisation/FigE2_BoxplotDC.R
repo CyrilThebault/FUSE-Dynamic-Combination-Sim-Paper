@@ -179,7 +179,7 @@ gg_HQ <- ggplot(filter(df_long, Metric == "KGE(Q)"), aes(x = KGE, y = Type, fill
                  )
                },
                position = position_dodge2()) +
-  # coord_cartesian(ylim = c(-0.41,1))+
+  coord_cartesian(xlim = c(-0.41,1))+
   scale_fill_brewer(palette = "Dark2") +
   geom_vline(xintercept = 1, col = "deepskyblue4", size = 0.8, linetype = "dashed") +
   geom_vline(xintercept = median_ini_HQ, col = "black", size = 0.5, linetype = "dashed") +
@@ -205,7 +205,7 @@ gg_LQ <- ggplot(filter(df_long, Metric == "KGE(1/Q)"), aes(x = KGE, y = Type, fi
                  )
                },
                position = position_dodge2()) +
-  # coord_cartesian(ylim = c(-0.41,1))+
+  coord_cartesian(xlim = c(-0.41,1))+
   scale_fill_brewer(palette = "Dark2") +
   geom_vline(xintercept = 1, col = "deepskyblue4", size = 0.8, linetype = "dashed") +
   geom_vline(xintercept = median_ini_LQ, col = "black", size = 0.5, linetype = "dashed") +
