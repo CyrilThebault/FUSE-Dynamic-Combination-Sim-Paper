@@ -2,8 +2,9 @@
 
 This repository allows for the reproduction of results from the paper:
 
-**"Varying the Combination of Hydrological Models in Time and Space: Towards a More Accurate Representation of Streamflow Across Large Domains"**  
-*Thébault, C., Knoben, W. J. M., Addor, N., Newman, A.J., Clark, M. P. (2025)*
+**"Varying the combination of hydrological models in time and space: Toward a more accurate representation of streamflow in large‐sample hydrology." (Thébault et al., 2026)**
+
+Thébault, C., Knoben, W. J. M., Addor, N., Newman, A. J., & Clark, M. P. (2026). Varying the combination of hydrological models in time and space: Toward a more accurate representation of streamflow in large‐sample hydrology. Water Resources Research, 62, e2025WR042272. https://doi.org/10.1029/2025WR042272
 
 ## Repository Structure
 
